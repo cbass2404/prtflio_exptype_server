@@ -2,6 +2,7 @@ import express from 'express';
 
 const app = express();
 
+console.log(process.env.development);
 app.get('/', (req, res) => {
     res.send('Well done!');
 });
