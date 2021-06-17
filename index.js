@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
+const passport = require('passport');
+require('./models/User');
 
 mongoose.connect(keys.MONGO_URI, {
     useNewUrlParser: true,
@@ -22,7 +24,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-console.log(process.env.NODE_ENV);
 app.get('/', (req, res) => {
     res.send('Well done!');
 });
