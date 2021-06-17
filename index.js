@@ -19,6 +19,8 @@ app.use(
         keys: [keys.COOKIE_KEY],
     })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 console.log(process.env.NODE_ENV);
 app.get('/', (req, res) => {
@@ -27,6 +29,4 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.Port || 5000;
 
-app.listen(PORT, () => {
-    return console.log('Connected to Mongo Instance');
-});
+app.listen(PORT);
