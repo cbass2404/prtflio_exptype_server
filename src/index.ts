@@ -6,6 +6,8 @@ app.get('/', (req, res) => {
     res.send('Well done!');
 });
 
-app.listen(process.env.PORT || 5000, () => {
-    console.log('The application is listening on port 5000!');
+const PORT = process.env.Port || 5000;
+
+app.listen(PORT, () => {
+    return console.log('Connected to Mongo Instance');
 });
