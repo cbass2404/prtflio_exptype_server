@@ -3,12 +3,12 @@ const { Schema } = mongoose;
 
 const projectSchema = new Schema({
     title: String,
-    languages: [String],
-    description: String,
+    lang: [String],
+    desc: String,
     url: String,
     repo: String,
     img: String,
-    thumbnail: String,
+    thumbImg: String,
     logo: String,
     _user: { type: Schema.Types.ObjectId, ref: 'User' },
 });

@@ -29,10 +29,21 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // routes
+require('./routes/authRoutes')(app);
+require('./routes/portfolioRoutes')(app);
 
-app.get('/', (req, res) => {
-    res.send('Well done!');
-});
+if (process.env.NODE_ENV === 'production') {
+    // express will serve up production assets
+    // main.js or main.css
+    app.use(express.static('client/build'));
+
+    // express wil serve up index.html
+    // if it doesn't recognize route
+    const path = require('path');
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
 
 const PORT = process.env.Port || 5000;
 
