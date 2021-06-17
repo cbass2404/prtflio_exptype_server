@@ -1,16 +1,23 @@
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
+const isAdmin = require('../middlewares/isAdmin');
 
 const Project = mongoose.model('projects');
 
+const error = { error: 'Something went wrong, try again later... :(' };
+
 module.exports = (app) => {
     app.get('/api/projects', async (req, res) => {
-        const projects = await Project.find();
+        try {
+            const projects = await Project.find();
 
-        res.send(projects);
+            res.send(projects);
+        } catch (err) {
+            res.status(400).send({ error });
+        }
     });
 
-    app.post('/api/projects', async (req, res) => {
+    app.post('/api/projects', requireLogin, isAdmin, async (req, res) => {
         const { title, lang, desc, url, repo, img, thumbImg, logo } = req.body;
 
         const newProject = new Project({
@@ -30,11 +37,11 @@ module.exports = (app) => {
 
             res.send(project);
         } catch (err) {
-            res.status(401).send(err);
+            res.status(400).send({ error });
         }
     });
 
-    app.delete('/api/projects', requireLogin, async (req, res) => {
+    app.delete('/api/projects', requireLogin, isAdmin, async (req, res) => {
         const { id } = req.body.id;
 
         try {
@@ -44,11 +51,11 @@ module.exports = (app) => {
 
             res.send('success');
         } catch (err) {
-            res.status(401).send(err);
+            res.status(400).send({ error });
         }
     });
 
-    app.patch('/api/projects/:id', requireLogin, async (req, res) => {
+    app.patch('/api/projects/:id', requireLogin, isAdmin, async (req, res) => {
         const { id, title, lang, desc, url, repo, img, thumbImg, logo } =
             req.body;
 
@@ -69,7 +76,7 @@ module.exports = (app) => {
 
             res.send(project);
         } catch (err) {
-            res.status(401).send(err);
+            res.status(400).send({ error });
         }
     });
 };
