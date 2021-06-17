@@ -4,3 +4,5 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
     user: String,
 });
+
+mongoose.model('users', userSchema);
