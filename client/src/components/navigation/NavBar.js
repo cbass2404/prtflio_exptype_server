@@ -5,24 +5,28 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 
 // components
 import AvatarImage from './AvatarImage';
-import ThemeSwitch from './ThemeSwitch';
 
 const useStyles = makeStyles((theme) => ({
     appWrapper: {
         flexGrow: 1,
     },
-    menuButton: {
+    title: {
         marginRight: theme.spacing(2),
     },
-    title: {
+    links: {
         flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        '& > *': {
+            margin: theme.spacing(1),
+        },
     },
 }));
 
@@ -36,40 +40,39 @@ const NavBar = ({ auth }) => {
             case false:
                 return (
                     <Button color="inherit" href="/auth/google">
-                        Login
+                        Login with Google
                     </Button>
                 );
             default:
                 return (
                     <Button color="inherit" href="/api/logout">
-                        Logout
+                        {`Welcome ${auth.displayName}`}
                     </Button>
                 );
         }
     };
 
-    console.log(auth);
-
     return (
         <div className={classes.appWrapper}>
-            <AppBar position="static">
+            <AppBar position="static" color="inherit">
                 <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="menu"
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" className={classes.title}>
+                    <Button className={classes.title} color="inherit" href="/">
                         Cory Bass
-                    </Typography>
+                    </Button>
+                    <div className={classes.links}>
+                        <ButtonGroup
+                            color="inherit"
+                            aria-label="outlined primary button group"
+                        >
+                            <Button>One</Button>
+                            <Button>Two</Button>
+                            <Button>Three</Button>
+                        </ButtonGroup>
+                    </div>
 
                     {renderAuthFlow()}
 
                     <AvatarImage />
-                    <ThemeSwitch />
                 </Toolbar>
             </AppBar>
         </div>
