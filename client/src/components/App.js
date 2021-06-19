@@ -6,25 +6,19 @@ import { connect } from 'react-redux';
 import { fetchUser } from '../redux/actions/authActions';
 
 // materialui
-import { createMuiTheme } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { theme } from '../styles/theme';
 
 // components
 import '../styles/common.css';
-import LoginBar from './navigation/LoginBar';
 import NavBar from './navigation/NavBar';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
-import Blog from './pages/Contact';
-
-const theme = createMuiTheme({
-    palette: {
-        type: 'dark',
-    },
-});
+import Blog from './pages/Blog';
+import NoMatch from './pages/NoMatch';
 
 const App = ({ fetchUser }) => {
     useEffect(() => {
@@ -35,7 +29,6 @@ const App = ({ fetchUser }) => {
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Router>
-                <LoginBar />
                 <NavBar />
                 <Container maxWidth="lg">
                     <Switch>
@@ -43,6 +36,7 @@ const App = ({ fetchUser }) => {
                         <Route exact path="/projects" component={Projects} />
                         <Route exact path="/contact" component={Contact} />
                         <Route exact path="/blog" component={Blog} />
+                        <Route path="*" component={NoMatch} />
                     </Switch>
                 </Container>
             </Router>
