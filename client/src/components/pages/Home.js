@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     gridItem: {
         width: '300px',
         flexGrow: 1,
+        textAlign: 'left',
     },
     offGray: {
         color: '#424242',

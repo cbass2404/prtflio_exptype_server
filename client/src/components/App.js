@@ -30,15 +30,15 @@ const App = ({ fetchUser }) => {
             <CssBaseline />
             <Router>
                 <NavBar />
-                <Container maxWidth="lg">
-                    <Switch>
+                <Switch>
+                    <Container maxWidth="lg" align="center">
                         <Route exact path="/" component={Home} />
                         <Route exact path="/projects" component={Projects} />
-                        <Route exact path="/contact" component={Contact} />
                         <Route exact path="/blog" component={Blog} />
-                        <Route path="*" component={NoMatch} />
-                    </Switch>
-                </Container>
+                        <Route path="/contact" component={Contact} />
+                    </Container>
+                    <Route path="*" component={NoMatch} />
+                </Switch>
             </Router>
         </ThemeProvider>
     );
