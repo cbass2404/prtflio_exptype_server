@@ -5,9 +5,9 @@ const isAdmin = require('../middlewares/isAdmin');
 const Messages = mongoose.model('messages');
 
 module.exports = (app) => {
-    app.get('/api/messages', requireLogin, async (req, res) => {
+    app.get('/api/messages', requireLogin, isAdmin, async (req, res) => {
         try {
-            const messages = await Messages.find();
+            const messages = await Messages.find({ _user: req.user.id });
 
             res.send(messages);
         } catch (err) {

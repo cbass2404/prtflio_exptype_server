@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // redux
 import { connect } from 'react-redux';
 import { fetchUser } from '../redux/actions/authActions';
+import { fetchMessages } from '../redux/actions/messageActions';
 
 // materialui
 import Container from '@material-ui/core/Container';
@@ -20,28 +21,42 @@ import Contact from './pages/Contact';
 import Blog from './pages/Blog';
 import NoMatch from './pages/NoMatch';
 
-const App = ({ fetchUser }) => {
+const App = ({ auth, messages, fetchUser, fetchMessages }) => {
     useEffect(() => {
         fetchUser();
     }, [fetchUser]);
+
+    useEffect(() => {
+        if (auth !== null && auth.admin) {
+            fetchMessages();
+        }
+    }, [fetchMessages, auth]);
+
+    console.log(auth);
+    console.log(messages);
 
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Router>
                 <NavBar />
-                <Switch>
-                    <Container maxWidth="lg" align="center">
+                <Container maxWidth="lg" align="center">
+                    <Switch>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/projects" component={Projects} />
                         <Route exact path="/blog" component={Blog} />
                         <Route path="/contact" component={Contact} />
-                    </Container>
-                    <Route path="*" component={NoMatch} />
-                </Switch>
+                        <Route path="*" component={NoMatch} />
+                    </Switch>
+                </Container>
             </Router>
         </ThemeProvider>
     );
 };
 
-export default connect(null, { fetchUser })(App);
+const mapPropsToState = (state) => ({
+    auth: state.auth,
+    messages: state.messages,
+});
+
+export default connect(mapPropsToState, { fetchUser, fetchMessages })(App);

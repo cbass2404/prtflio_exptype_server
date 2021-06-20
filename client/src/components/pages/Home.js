@@ -65,7 +65,7 @@ const Home = () => {
                         <span className={classes.highlight}>{`</bold>`}</span>
                     </Typography>
 
-                    <Typography variant="body">
+                    <Typography variant="body1">
                         <span className={classes.highlight}>I'm Cory, </span>
                         fullstack
                         <br />
@@ -74,7 +74,7 @@ const Home = () => {
                 </Grid>
 
                 <Grid item>
-                    <Typography variant="body">
+                    <Typography variant="body1">
                         I love to learn new things and accept challenging
                         projects. Above all things I value a good team and being
                         a valuable member of that team. I have a great attitude
@@ -178,7 +178,7 @@ const Home = () => {
                 </Grid>
 
                 <Grid item>
-                    <Typography variant="body">
+                    <Typography variant="body1">
                         I enjoy playing Irish folk music on my mandolin, playing
                         survival games and simulators, trying out new VR games
                         as they come out, playing board games with my children,
