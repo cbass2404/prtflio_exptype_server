@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 // materialui
 import { makeStyles } from '@material-ui/core/styles';
@@ -35,8 +36,9 @@ const Contact = () => {
 
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
-    const [textField, setTextField] = useState('');
+    const [message, setMessage] = useState('');
     const [errors, setErrors] = useState({});
+    const [response, setResponse] = useState('');
 
     const fields = [
         {
@@ -55,17 +57,37 @@ const Contact = () => {
         },
         {
             errors,
-            name: 'Reason',
-            value: textField,
-            fn: setTextField,
+            name: 'Message',
+            value: message,
+            fn: setMessage,
             errorMessage: 'This field is required',
         },
     ];
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const contactRequest = {
+            email,
+            name,
+            message,
+        };
+
+        axios
+            .post('/api/messages', contactRequest)
+            .then((res) => res.data)
+            .then((data) => console.log(data))
+            .catch((err) => {
+                console.log(err);
+                setResponse('Something went wrong');
+            });
+    };
 
     const mapFields = () =>
         fields.map(({ errors, name, value, fn, errorMessage }) => {
             return (
                 <ContactInput
+                    key={name}
                     errors={errors}
                     name={name}
                     value={value}
@@ -94,17 +116,23 @@ const Contact = () => {
                     <ContactInfo />
                 </Grid>
                 <Grid item>
-                    <form className={classes.formWrapper}>
+                    <form
+                        className={classes.formWrapper}
+                        onSubmit={(e) => handleSubmit(e)}
+                    >
                         {mapFields()}
 
                         <Button
                             variant="contained"
                             color="inherit"
                             className={classes.buttonStyle}
+                            type="submit"
+                            disabled={!email || !name || !message}
                         >
                             Submit
                         </Button>
                     </form>
+                    {response}
                 </Grid>
             </Grid>
         </Grid>

@@ -29,7 +29,7 @@ module.exports = (app) => {
             img,
             thumbImg,
             logo,
-            _user: 'kasdf',
+            _user: '109858114577478227581',
         });
 
         try {

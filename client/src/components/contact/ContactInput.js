@@ -5,14 +5,13 @@ const ContactInput = ({ errors, name, value, fn, errorMessage }) => {
     return (
         <div>
             <TextField
-                color="inherit"
                 variant="outlined"
                 value={value}
                 onChange={(e) => fn(e.target.value)}
                 label={name}
                 required
                 error={errors[name]}
-                multiline={name === 'Reason'}
+                multiline={name === 'Message'}
                 rows={4}
             />
             {errors[name] && errorMessage}
