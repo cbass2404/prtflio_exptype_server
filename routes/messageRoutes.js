@@ -23,6 +23,7 @@ module.exports = (app) => {
             name,
             message,
         });
+
         try {
             const response = await newMessage.save();
 

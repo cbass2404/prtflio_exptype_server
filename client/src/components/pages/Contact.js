@@ -38,12 +38,13 @@ const Contact = () => {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
+    const [response, setResponse] = useState('');
+    const [responseColor, setResponseColor] = useState('inherit');
     const [errors, setErrors] = useState({
         Email: '',
         Name: '',
         Message: '',
     });
-    const [notValid, setNotValid] = useState(true);
 
     const fields = [
         {
@@ -66,16 +67,25 @@ const Contact = () => {
         },
     ];
 
-    const handleSubmit = (e) => {
+    const handleValidation = (e) => {
         e.preventDefault();
 
-        validateTextInput(fields, setErrors);
-        validateEmail(email, setErrors, setNotValid);
+        const input = validateTextInput(fields, setErrors);
 
-        if (notValid) {
+        if (!input) {
             return;
         }
 
+        const validEmail = validateEmail(email, setErrors);
+
+        if (!validEmail) {
+            return;
+        }
+
+        handleSubmit();
+    };
+
+    const handleSubmit = () => {
         const contactRequest = {
             email,
             name,
@@ -84,11 +94,14 @@ const Contact = () => {
 
         axios
             .post('/api/messages', contactRequest)
-            .then((res) => res.data)
-            .then((data) => console.log(data))
+            .then(() => {
+                setResponse('We will contact you soon');
+                setResponseColor('inherit');
+            })
             .catch((err) => {
                 console.log(err);
-                // setResponse('Something went wrong');
+                setResponse('Something went wrong');
+                setResponseColor('error');
             });
     };
 
@@ -128,7 +141,7 @@ const Contact = () => {
                 <Grid item>
                     <form
                         className={classes.formWrapper}
-                        onSubmit={(e) => handleSubmit(e)}
+                        onSubmit={(e) => handleValidation(e)}
                     >
                         {mapFields()}
 
@@ -137,13 +150,12 @@ const Contact = () => {
                             color="inherit"
                             className={classes.buttonStyle}
                             type="submit"
-                            // disabled={!email || !name || !message}
                         >
                             Submit
                         </Button>
                     </form>
 
-                    {/* {response} */}
+                    <Typography color={responseColor}>{response}</Typography>
                 </Grid>
             </Grid>
         </Grid>

@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 // materialui
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
