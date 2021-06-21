@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // materialui
@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 // components
 import ContactInput from '../contact/ContactInput';
 import ContactInfo from '../contact/ContactInfo';
+import { validateTextInput, validateEmail } from '../utils/validate';
 
 const useStyles = makeStyles((theme) => ({
     contactWrapperStyle: {
@@ -37,35 +38,43 @@ const Contact = () => {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
-    const [errors, setErrors] = useState({});
-    const [response, setResponse] = useState('');
+    const [errors, setErrors] = useState({
+        Email: '',
+        Name: '',
+        Message: '',
+    });
+    const [notValid, setNotValid] = useState(true);
 
     const fields = [
         {
-            errors,
             name: 'Email',
             value: email,
             fn: setEmail,
-            errorMessage: 'Not a valid email',
+            errorMessage: 'This must be filled in',
         },
         {
-            errors,
             name: 'Name',
             value: name,
             fn: setName,
-            errorMessage: 'This field is required',
+            errorMessage: 'This must be filled in',
         },
         {
-            errors,
             name: 'Message',
             value: message,
             fn: setMessage,
-            errorMessage: 'This field is required',
+            errorMessage: 'This must be filled in',
         },
     ];
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        validateTextInput(fields, setErrors);
+        validateEmail(email, setErrors, setNotValid);
+
+        if (notValid) {
+            return;
+        }
 
         const contactRequest = {
             email,
@@ -79,12 +88,12 @@ const Contact = () => {
             .then((data) => console.log(data))
             .catch((err) => {
                 console.log(err);
-                setResponse('Something went wrong');
+                // setResponse('Something went wrong');
             });
     };
 
     const mapFields = () =>
-        fields.map(({ errors, name, value, fn, errorMessage }) => {
+        fields.map(({ name, value, fn }) => {
             return (
                 <ContactInput
                     key={name}
@@ -92,7 +101,6 @@ const Contact = () => {
                     name={name}
                     value={value}
                     fn={fn}
-                    errorMessage={errorMessage}
                 />
             );
         });
@@ -111,10 +119,12 @@ const Contact = () => {
                     className={classes.offGray}
                 >{`< contact me >`}</Typography>
             </Grid>
+
             <Grid item container direction="row" justify="space-evenly">
                 <Grid item>
                     <ContactInfo />
                 </Grid>
+
                 <Grid item>
                     <form
                         className={classes.formWrapper}
@@ -127,12 +137,13 @@ const Contact = () => {
                             color="inherit"
                             className={classes.buttonStyle}
                             type="submit"
-                            disabled={!email || !name || !message}
+                            // disabled={!email || !name || !message}
                         >
                             Submit
                         </Button>
                     </form>
-                    {response}
+
+                    {/* {response} */}
                 </Grid>
             </Grid>
         </Grid>

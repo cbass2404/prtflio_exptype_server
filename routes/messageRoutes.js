@@ -16,7 +16,6 @@ module.exports = (app) => {
     });
 
     app.post('/api/messages', async (req, res) => {
-        console.log(req.body);
         const { email, name, message } = req.body;
 
         const newMessage = new Messages({

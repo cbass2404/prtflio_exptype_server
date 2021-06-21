@@ -32,9 +32,6 @@ const App = ({ auth, messages, fetchUser, fetchMessages }) => {
         }
     }, [fetchMessages, auth]);
 
-    console.log(auth);
-    console.log(messages);
-
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
