@@ -95,12 +95,15 @@ const Contact = () => {
         axios
             .post('/api/messages', contactRequest)
             .then(() => {
-                setResponse('We will contact you soon');
+                setResponse('I will contact you soon!');
                 setResponseColor('inherit');
+                setEmail('');
+                setName('');
+                setMessage('');
             })
             .catch((err) => {
                 console.log(err);
-                setResponse('Something went wrong');
+                setResponse('Something went wrong...');
                 setResponseColor('error');
             });
     };
@@ -155,7 +158,9 @@ const Contact = () => {
                         </Button>
                     </form>
 
-                    <Typography color={responseColor}>{response}</Typography>
+                    <Typography color={responseColor} variant="body1">
+                        {response}
+                    </Typography>
                 </Grid>
             </Grid>
         </Grid>

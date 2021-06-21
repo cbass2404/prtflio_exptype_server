@@ -7,6 +7,11 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Badge from '@material-ui/core/Badge';
+
+// materialui icons
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 
 // components
 import NavButtons from './NavButtons';
@@ -37,8 +42,25 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const NavBar = ({ auth }) => {
+const NavBar = ({ auth, messages }) => {
     const classes = useStyles();
+
+    const totalUnread = messages.filter(({ viewed }) => viewed !== true).length;
+
+    const handleBadgeAuth = () => {
+        if (auth && auth.admin) {
+            return (
+                <Badge badgeContent={totalUnread}>
+                    {messages.length ? (
+                        <NotificationsActiveIcon />
+                    ) : (
+                        <NotificationsIcon />
+                    )}
+                </Badge>
+            );
+        }
+        return null;
+    };
 
     return (
         <div className={classes.appWrapper}>
@@ -51,8 +73,12 @@ const NavBar = ({ auth }) => {
                             alt="Cory Bass logo"
                         />
                     </Link>
-                    <div className={classes.spacer} />
-                    <NavButtons />
+
+                    {handleBadgeAuth()}
+
+                    <div className={classes.spacer}></div>
+
+                    <NavButtons auth={auth} />
                 </Toolbar>
             </AppBar>
         </div>
@@ -61,6 +87,7 @@ const NavBar = ({ auth }) => {
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
+    messages: state.messages,
 });
 
 export default connect(mapStateToProps)(NavBar);

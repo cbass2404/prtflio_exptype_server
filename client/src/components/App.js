@@ -14,14 +14,14 @@ import { theme } from '../styles/theme';
 
 // components
 import '../styles/common.css';
-import NavBar from './navigation/NavBar';
+import TopNavBar from './navigation/TopNavBar';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import Blog from './pages/Blog';
 import NoMatch from './pages/NoMatch';
 
-const App = ({ auth, messages, fetchUser, fetchMessages }) => {
+const App = ({ auth, fetchUser, fetchMessages }) => {
     useEffect(() => {
         fetchUser();
     }, [fetchUser]);
@@ -35,18 +35,24 @@ const App = ({ auth, messages, fetchUser, fetchMessages }) => {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Router>
-                <NavBar />
-                <Container maxWidth="lg" align="center">
-                    <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route exact path="/projects" component={Projects} />
-                        <Route exact path="/blog" component={Blog} />
-                        <Route path="/contact" component={Contact} />
-                        <Route path="*" component={NoMatch} />
-                    </Switch>
-                </Container>
-            </Router>
+            <div className="App">
+                <Router>
+                    <TopNavBar />
+                    <Container maxWidth="lg" align="center">
+                        <Switch>
+                            <Route exact path="/" component={Home} />
+                            <Route
+                                exact
+                                path="/projects"
+                                component={Projects}
+                            />
+                            <Route exact path="/blog" component={Blog} />
+                            <Route path="/contact" component={Contact} />
+                            <Route path="*" component={NoMatch} />
+                        </Switch>
+                    </Container>
+                </Router>
+            </div>
         </ThemeProvider>
     );
 };

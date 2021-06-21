@@ -3,10 +3,6 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 const ContactInput = ({ errors, name, value, fn }) => {
-    // useEffect(() => {
-    //     console.log('errors updated');
-    // }, [errors]);
-
     return (
         <div>
             <TextField
@@ -17,7 +13,7 @@ const ContactInput = ({ errors, name, value, fn }) => {
                 multiline={name === 'Message'}
                 rows={4}
             />
-            <Typography variant="h6" color="error">
+            <Typography variant="body1" color="error">
                 {errors[name]}
             </Typography>
         </div>

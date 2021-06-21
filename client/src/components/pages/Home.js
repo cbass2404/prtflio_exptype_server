@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
     profileImgStyle: {
         width: '100%',
         border: '1px solid #424242',
-        borderRadius: '360px',
     },
     gridItem: {
         width: '300px',
