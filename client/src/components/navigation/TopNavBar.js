@@ -1,3 +1,4 @@
+import { useEffect, useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // redux
@@ -44,14 +45,25 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = ({ auth, messages }) => {
     const classes = useStyles();
+    const [unread, setUnread] = useState(0);
 
-    const totalUnread = messages.filter(({ viewed }) => viewed !== true).length;
+    const memoizedUnread = useCallback(() => {
+        const unreadCount = messages.filter(
+            ({ viewed }) => viewed !== true
+        ).length;
+
+        setUnread(unreadCount);
+    }, [messages]);
+
+    useEffect(() => {
+        memoizedUnread();
+    }, [memoizedUnread, messages]);
 
     const handleBadgeAuth = () => {
         if (auth && auth.admin) {
             return (
-                <Badge badgeContent={totalUnread}>
-                    {messages.length ? (
+                <Badge badgeContent={unread || 0}>
+                    {unread > 0 ? (
                         <NotificationsActiveIcon />
                     ) : (
                         <NotificationsIcon />

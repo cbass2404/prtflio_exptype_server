@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
 
+// redux
+import { connect } from 'react-redux';
+import { addMessage } from '../../redux/actions/messageActions';
+
 // materialui
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -32,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Contact = () => {
+const Contact = ({ addMessage }) => {
     const classes = useStyles();
 
     const [email, setEmail] = useState('');
@@ -94,7 +98,10 @@ const Contact = () => {
 
         axios
             .post('/api/messages', contactRequest)
-            .then(() => {
+            .then((res) => res.data)
+            .then((data) => {
+                addMessage(data);
+
                 setResponse('I will contact you soon!');
                 setResponseColor('inherit');
                 setEmail('');
@@ -103,7 +110,7 @@ const Contact = () => {
                 setErrors({ Email: '', Name: '', Message: '' });
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
                 setResponse('Something went wrong...');
                 setResponseColor('error');
             });
@@ -168,4 +175,4 @@ const Contact = () => {
     );
 };
 
-export default Contact;
+export default connect(null, { addMessage })(Contact);

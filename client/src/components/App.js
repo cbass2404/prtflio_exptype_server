@@ -21,7 +21,7 @@ import Contact from './pages/Contact';
 import Blog from './pages/Blog';
 import NoMatch from './pages/NoMatch';
 
-const App = ({ auth, fetchUser, fetchMessages }) => {
+const App = ({ auth, messages, fetchUser, fetchMessages }) => {
     useEffect(() => {
         fetchUser();
     }, [fetchUser]);
