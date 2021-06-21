@@ -100,6 +100,7 @@ const Contact = () => {
                 setEmail('');
                 setName('');
                 setMessage('');
+                setErrors({ Email: '', Name: '', Message: '' });
             })
             .catch((err) => {
                 console.log(err);
